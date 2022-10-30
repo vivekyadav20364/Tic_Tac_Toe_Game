@@ -1,0 +1,167 @@
+#include<bits/stdc++.h>
+using namespace std;
+char mat[3][3]={{'1','2','3'},{'4','5','6'},{'7','8','9'}};
+int row;
+int col;
+char chance='x';
+bool draw=false;
+string ply1="";
+string ply2="";
+void structure()
+{
+    cout<<mat[0][0]<<"  |   "<<mat[0][1]<<"  |  "<<mat[0][2]<<endl;
+    cout<<"___|______|___"<<endl;
+    cout<<mat[1][0]<<"  |   "<<mat[1][1]<<"  |  "<<mat[1][2]<<endl;
+    cout<<"___|______|___"<<endl;
+    cout<<mat[2][0]<<"  |   "<<mat[2][1]<<"  |  "<<mat[2][2]<<endl;
+    cout<<"   |      |"<<endl;
+    cout<<"\n";
+
+}
+
+void input_function()
+{
+  int digit;
+  if (chance == 'x')
+  {
+      cout << ply1 << " Please Enter :";
+      cin >> digit;
+  }
+  if (chance == '0')
+  {
+      cout << ply2 << " Please Enter :";
+      cin >> digit;
+  }
+
+  if (digit == 1)
+  {
+      row = 0;
+      col = 0;
+  }
+
+  if (digit == 2)
+  {
+      row = 0;
+      col = 1;
+  }
+
+  if (digit == 3)
+  {
+      row = 0;
+      col = 2;
+  }
+
+  if (digit == 4)
+  {
+      row = 1;
+      col = 0;
+  }
+
+  if (digit == 5)
+  {
+      row = 1;
+      col = 1;
+  }
+
+  if (digit == 6)
+  {
+      row = 1;
+      col = 2;
+  }
+
+  if (digit == 7)
+  {
+      row = 2;
+      col = 0;
+  }
+
+  if (digit == 8)
+  {
+      row = 2;
+      col = 1;
+  }
+
+  if (digit == 9)
+  {
+      row = 2;
+      col = 2;
+  }
+
+else if(digit<1 || digit>9)
+  {
+    cout<<"Invalid !!"<<endl;
+    return;
+  }
+
+  if(chance=='x' && mat[row][col]!='x' && mat[row][col]!='0')
+  {
+    mat[row][col]='x';
+    chance='0';
+  }
+
+  else if(chance=='0' && mat[row][col]!='x' && mat[row][col]!='0')
+  {
+    mat[row][col]='0';
+    chance='x';
+  }
+
+  else{
+    cout<<"There is No Empty Space"<<endl;
+      input_function();
+  }
+ // structure();
+}
+
+//function to check whether the match win or draw
+
+bool winner()
+{
+   for(int i=0;i<3;i++)
+   {
+     if(mat[i][0]==mat[i][1] && mat[i][0]==mat[i][2]  || mat[0][i]==mat[1][i] && mat[0][i]==mat[2][i])
+       return true;     
+   }
+   if(mat[0][0]==mat[1][1] && mat[1][1]==mat[2][2]  || mat[0][2]==mat[1][1] && mat[1][1]==mat[2][0])
+   {
+    return true;
+   }
+
+   //Now check whether the match is still going or finish 
+
+   for(int i=0;i<3;i++){
+     for(int j=0;j<3;j++){
+        if(mat[i][j]!='x' && mat[i][j]!='0')
+          return false;
+     }
+   }
+   // if the we come at this position this means the match is tie
+    draw=true;
+    return true;
+}
+
+int main()
+{
+    cout<<"Enter the Name of First Player : \n";
+    getline(cin,ply1);
+    cout<<"Enter the Name of Second Player : \n";
+    getline(cin,ply2);
+    cout<<ply1<<"  will Play First \n";
+    cout<<ply2<<"  will Play Second \n";
+    cout<<"\n";
+
+    while(!winner())
+    {
+      
+     structure();
+     input_function();
+     winner();
+   }
+   if(chance=='x' && draw==false){
+     cout<<ply2<<" wins :)"<<endl;
+  }
+  else if(chance=='0' && draw==false){
+     cout<<ply1<<" wins :)"<<endl;
+  }
+  else if(draw==true)
+    cout<<"Match Draw"<<endl;   
+}
